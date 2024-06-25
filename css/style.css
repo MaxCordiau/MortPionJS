@@ -43,7 +43,6 @@ body {
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 20px;
-    margin-bottom: 100px;
 }
 #form2{
     display: flex;
@@ -83,4 +82,14 @@ font-size: 100px;
 }
 .cell:hover {
     background-color: #ddd;
+}
+button{
+    padding: 20px;
+    background-color: green;
+    margin-bottom: 50px;
+    cursor: pointer;
+    &:hover{
+        background-color: red;
+        transition: all 0.2s ;
+    }
 }
