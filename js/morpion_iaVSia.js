@@ -23,7 +23,8 @@ function init(){
     initScore()
 
     // Ajoute la fonction qui permet de reset la partie
-    document.querySelector('button').addEventListener('click', newGame)
+    // document.querySelector('button').addEventListener('click', newGame)
+    document.querySelector('#startgame').addEventListener('click', startGame)
 }
 init()
 
@@ -47,13 +48,19 @@ function addListenerToCells(){
             }
 
             grid[index] = currentPlayer;
-            cell.innerHTML = currentPlayer === 1 ? player1 : player2;
+            displayPlayerSymbol(index)
+            
 
             // On cherche si quelqu'un à gagné
             checkIfSomeoneWon()
            
         });
     });
+}
+
+// Fonction qui permet d'afficher le symbole du joueur sur le DOM
+function displayPlayerSymbol(index){
+    document.querySelectorAll(".cell")[index].innerHTML = currentPlayer === 1 ? player1 : player2;
 }
 
 // On doit vérifier s'il y a un vainqueur
@@ -102,6 +109,28 @@ function changePlayer(){
     currentPlayer = currentPlayer === 1 ? 2 : 1;
 }
 
+// Fonction qui permet de jouer avec l'IA Debilla
+function playWithDebilla(){
+
+    // On choisi un nombre alétatoire entre 0 et 8
+    let randomIndex = Math.floor(Math.random() * 9);
+    console.log('randomIndex ', randomIndex)
+
+    // On vérifie si la case est vide
+    if(grid[randomIndex] === 0){
+        // La case est vide, on peut jouer
+        grid[randomIndex] = currentPlayer;
+
+        // On affiche le symbole du joueur sur le DOM
+        displayPlayerSymbol(randomIndex)
+        // On test pour savoir si quelqu'un a gagné
+        checkIfSomeoneWon()
+    } else {
+        // La case n'est pas vide, on recommence
+        playWithDebilla()
+    }
+}
+
 // Fonction qui permet de recommencer une partie
 function newGame(){
     currentPlayer = 1;
@@ -115,4 +144,52 @@ function newGame(){
     cells.forEach(cell => {
         cell.innerHTML = '';
     });
+}
+
+// Fonction qui permet de démarrer le jeu avec l'utilisation de l'IA
+function startGame(){
+
+    const timer = setInterval(() => {
+        // On fait appel à la fonction Debilla
+        if(!isGameWon && !isGameFinished){
+            playWithDebilla()
+        }
+        if(isGameWon || isGameFinished){
+            // Arrête le timer
+            clearInterval(timer)
+
+            // Redémarre la partie au bout de Xms
+            setTimeout(() => {
+                newGame()
+                startGame()
+            },500 + Math.floor(Math.random() * 500))
+        }
+
+    }, 500 + Math.floor(Math.random() * 500))
+    
+    document.querySelector('#stopgame').removeEventListener('click', startGame)
+    document.querySelector('#stopgame').addEventListener('click', () => {
+        clearInterval(timer)
+        // isGameFinished = true;
+    })
+
+    document.querySelector('#continuegame').removeEventListener('click', startGame)
+    document.querySelector('#continuegame').addEventListener('click', () => {
+        startGame()
+    })
+
+    
+
+    // // Si personne n'a gagné, on relance le jeu
+    // if(!isGameWon && !isGameFinished){
+    //     // On relance le jeu après un délai de 500ms à 1s
+    //     setTimeout(startGame, delay) 
+    // }
+
+    // // Si le jeu est terminé, on relance une nouvelle partie
+    // if(isGameWon || isGameFinished){
+    //     newGame()
+    //     startGame()
+    // }
+
 }

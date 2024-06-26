@@ -15,7 +15,7 @@ body {
     font-weight: 700;
 }
 
-#art1{
+/* #art1{
     display: flex;
     justify-content: center;
     align-items: baseline;
@@ -29,7 +29,7 @@ body {
 #art1 div p{
     color: rgb(148, 4, 4);
     font-weight: 900;
-}
+} */
 #art2{
     display: flex;
     justify-content: center;
@@ -83,13 +83,23 @@ font-size: 100px;
 .cell:hover {
     background-color: #ddd;
 }
-button{
-    padding: 20px;
-    background-color: green;
-    margin-bottom: 50px;
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-    &:hover{
-        background-color: red;
-        transition: all 0.2s ;
+    &:hover {
+        background-color: #ff0000;
+        transition: 0.3s ease;
     }
+}
+#iavsia{
+    margin-top: 20px;
+}
+#startgame{
+    margin-right: 50px;
 }
